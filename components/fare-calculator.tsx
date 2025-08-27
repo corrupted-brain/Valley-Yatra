@@ -227,7 +227,7 @@ export function FareCalculator() {
               {getSavingsAmount() > 0 && (
                 <div className="bg-green-50 border border-green-200 rounded-lg p-3">
                   <div className="flex items-center gap-2 text-green-800">
-                    <DollarSign className="h-4 w-4" />
+                    <DollarSign className=/*"h-4 w-4"*/ />
                     <span className="font-medium">You save Rs. {getSavingsAmount()}</span>
                   </div>
                   <p className="text-xs text-green-600 mt-1">
