@@ -212,7 +212,7 @@ export function JourneyPlanner() {
                       {formatDuration(option.total_duration_minutes)}
                     </div>
                     <div className="flex items-center gap-1 text-sm font-medium text-foreground">
-                      <DollarSign className="h-3 w-3" />
+                      <DollarSign /*className="h-3 w-3"*/ />
                       Rs. {option.total_fare}
                     </div>
                   </div>
