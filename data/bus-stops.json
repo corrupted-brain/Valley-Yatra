@@ -169,5 +169,124 @@
       "shelter": true,
       "seating": true
     }
+  },
+  {
+    "id": 11,
+    "stop_name": "Maitighar",
+    "stop_code": "MTG001",
+    "latitude": 27.7056,
+    "longitude": 85.3158,
+    "address": "Maitighar, Kathmandu",
+    "landmarks": "Maitighar Mandala",
+    "district": "Kathmandu",
+    "zone": "Bagmati",
+    "is_major_stop": true,
+    "facilities": {
+      "wheelchair_accessible": true,
+      "shelter": true,
+      "seating": true
+    }
+  },
+  {
+    "id": 12,
+    "stop_name": "New Baneshwor",
+    "stop_code": "NBW001",
+    "latitude": 27.6939,
+    "longitude": 85.3419,
+    "address": "New Baneshwor, Kathmandu",
+    "landmarks": "New Baneshwor Height",
+    "district": "Kathmandu",
+    "zone": "Bagmati",
+    "is_major_stop": true,
+    "facilities": {
+      "wheelchair_accessible": true,
+      "shelter": true,
+      "seating": true
+    }
+  },
+  {
+    "id": 13,
+    "stop_name": "Tinkune",
+    "stop_code": "TNK001",
+    "latitude": 27.6869,
+    "longitude": 85.35,
+    "address": "Tinkune, Kathmandu",
+    "landmarks": "Airport Road Junction",
+    "district": "Kathmandu",
+    "zone": "Bagmati",
+    "is_major_stop": true,
+    "facilities": {
+      "wheelchair_accessible": true,
+      "shelter": true,
+      "seating": true
+    }
+  },
+  {
+    "id": 14,
+    "stop_name": "Jadibuti",
+    "stop_code": "JDB001",
+    "latitude": 27.68,
+    "longitude": 85.365,
+    "address": "Jadibuti, Kathmandu",
+    "landmarks": "Jadibuti Bus Park",
+    "district": "Kathmandu",
+    "zone": "Bagmati",
+    "is_major_stop": true,
+    "facilities": {
+      "wheelchair_accessible": true,
+      "shelter": true,
+      "seating": true
+    }
+  },
+  {
+    "id": 15,
+    "stop_name": "Lokanthali",
+    "stop_code": "LKT001",
+    "latitude": 27.675,
+    "longitude": 85.38,
+    "address": "Lokanthali, Bhaktapur",
+    "landmarks": "Lokanthali Height",
+    "district": "Bhaktapur",
+    "zone": "Bagmati",
+    "is_major_stop": false,
+    "facilities": {
+      "wheelchair_accessible": false,
+      "shelter": true,
+      "seating": false
+    }
+  },
+  {
+    "id": 16,
+    "stop_name": "Radhe Radhe",
+    "stop_code": "RDR001",
+    "latitude": 27.672,
+    "longitude": 85.4,
+    "address": "Radhe Radhe, Bhaktapur",
+    "landmarks": "Radhe Radhe Temple",
+    "district": "Bhaktapur",
+    "zone": "Bagmati",
+    "is_major_stop": false,
+    "facilities": {
+      "wheelchair_accessible": false,
+      "shelter": true,
+      "seating": false
+    }
+  },
+  {
+    "id": 17,
+    "stop_name": "Suraya Binayak",
+    "stop_code": "SBK001",
+    "latitude": 27.67,
+    "longitude": 85.415,
+    "address": "Suraya Binayak, Bhaktapur",
+    "landmarks": "Suraya Binayak Temple",
+    "district": "Bhaktapur",
+    "zone": "Bagmati",
+    "is_major_stop": false,
+    "facilities": {
+      "wheelchair_accessible": false,
+      "shelter": true,
+      "seating": false
+    }
   }
 ]
