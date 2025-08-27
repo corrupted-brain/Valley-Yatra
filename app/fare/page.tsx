@@ -1,6 +1,6 @@
 import { FareCalculator } from "@/components/fare-calculator"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Calculator, DollarSign, Users, Info } from "lucide-react"
+import { Calculator, Users, Info } from "lucide-react"
 
 export default function FarePage() {
   return (
