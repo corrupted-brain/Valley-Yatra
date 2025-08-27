@@ -1,0 +1,130 @@
+{
+  "buses": [
+    {
+      "id": 1,
+      "bus_number": "BA 1 KHA 1234",
+      "route_id": 1,
+      "bus_type": "Standard",
+      "capacity": 45,
+      "operator": "Kathmandu Transport Cooperative",
+      "status": "active"
+    },
+    {
+      "id": 2,
+      "bus_number": "BA 2 GA 5678",
+      "route_id": 1,
+      "bus_type": "AC",
+      "capacity": 40,
+      "operator": "Kathmandu Transport Cooperative",
+      "status": "active"
+    },
+    {
+      "id": 3,
+      "bus_number": "BA 3 KHA 9012",
+      "route_id": 1,
+      "bus_type": "Standard",
+      "capacity": 45,
+      "operator": "Valley Transport Service",
+      "status": "active"
+    },
+    {
+      "id": 4,
+      "bus_number": "BA 1 CHA 3456",
+      "route_id": 2,
+      "bus_type": "Standard",
+      "capacity": 50,
+      "operator": "New Bus Park Cooperative",
+      "status": "active"
+    },
+    {
+      "id": 5,
+      "bus_number": "BA 2 JHA 7890",
+      "route_id": 2,
+      "bus_type": "Deluxe",
+      "capacity": 35,
+      "operator": "Patan Transport Service",
+      "status": "active"
+    },
+    {
+      "id": 6,
+      "bus_number": "BA 3 TA 1357",
+      "route_id": 2,
+      "bus_type": "Standard",
+      "capacity": 45,
+      "operator": "New Bus Park Cooperative",
+      "status": "active"
+    },
+    {
+      "id": 7,
+      "bus_number": "BA 1 THA 2468",
+      "route_id": 3,
+      "bus_type": "Standard",
+      "capacity": 40,
+      "operator": "Maharajgunj Transport",
+      "status": "active"
+    },
+    {
+      "id": 8,
+      "bus_number": "BA 2 DA 9753",
+      "route_id": 3,
+      "bus_type": "Standard",
+      "capacity": 45,
+      "operator": "Kirtipur Campus Transport",
+      "status": "active"
+    },
+    {
+      "id": 9,
+      "bus_number": "BA 3 NA 8642",
+      "route_id": 4,
+      "bus_type": "AC",
+      "capacity": 38,
+      "operator": "Balaju Transport Cooperative",
+      "status": "active"
+    },
+    {
+      "id": 10,
+      "bus_number": "BA 1 PA 1975",
+      "route_id": 4,
+      "bus_type": "Standard",
+      "capacity": 50,
+      "operator": "Sankhamul Transport Service",
+      "status": "active"
+    },
+    {
+      "id": 11,
+      "bus_number": "BA 2 PHA 3086",
+      "route_id": 4,
+      "bus_type": "Standard",
+      "capacity": 45,
+      "operator": "Balaju Transport Cooperative",
+      "status": "active"
+    },
+    {
+      "id": 12,
+      "bus_number": "BA 3 BA 4197",
+      "route_id": 5,
+      "bus_type": "Deluxe",
+      "capacity": 35,
+      "operator": "Kalanki Transport Service",
+      "status": "active"
+    },
+    {
+      "id": 13,
+      "bus_number": "BA 1 MA 5208",
+      "route_id": 5,
+      "bus_type": "Standard",
+      "capacity": 50,
+      "operator": "Koteshwor Transport Cooperative",
+      "status": "active"
+    },
+    {
+      "id": 14,
+      "bus_number": "BA 2 YA 6319",
+      "route_id": 5,
+      "bus_type": "AC",
+      "capacity": 40,
+      "operator": "Ring Road Transport",
+      "status": "active"
+    }
+  ]
+}

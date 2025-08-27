@@ -1,0 +1,173 @@
+[
+  {
+    "id": 1,
+    "stop_name": "Ratna Park",
+    "stop_code": "RNP001",
+    "latitude": 27.7172,
+    "longitude": 85.324,
+    "address": "Ratna Park, Kathmandu",
+    "landmarks": "Near Ratna Park, City Center",
+    "district": "Kathmandu",
+    "zone": "Bagmati",
+    "is_major_stop": true,
+    "facilities": {
+      "wheelchair_accessible": true,
+      "shelter": true,
+      "seating": true
+    }
+  },
+  {
+    "id": 2,
+    "stop_name": "New Bus Park",
+    "stop_code": "NBP001",
+    "latitude": 27.7,
+    "longitude": 85.3,
+    "address": "New Bus Park, Gongabu",
+    "landmarks": "Main Bus Terminal",
+    "district": "Kathmandu",
+    "zone": "Bagmati",
+    "is_major_stop": true,
+    "facilities": {
+      "wheelchair_accessible": true,
+      "shelter": true,
+      "seating": true,
+      "restrooms": true
+    }
+  },
+  {
+    "id": 3,
+    "stop_name": "Bhaktapur Durbar Square",
+    "stop_code": "BDS001",
+    "latitude": 27.671,
+    "longitude": 85.4298,
+    "address": "Durbar Square, Bhaktapur",
+    "landmarks": "Historic Durbar Square",
+    "district": "Bhaktapur",
+    "zone": "Bagmati",
+    "is_major_stop": true,
+    "facilities": {
+      "wheelchair_accessible": false,
+      "shelter": true,
+      "seating": true
+    }
+  },
+  {
+    "id": 4,
+    "stop_name": "Patan Dhoka",
+    "stop_code": "PTD001",
+    "latitude": 27.6766,
+    "longitude": 85.325,
+    "address": "Patan Dhoka, Lalitpur",
+    "landmarks": "Patan Museum Area",
+    "district": "Lalitpur",
+    "zone": "Bagmati",
+    "is_major_stop": true,
+    "facilities": {
+      "wheelchair_accessible": true,
+      "shelter": true,
+      "seating": false
+    }
+  },
+  {
+    "id": 5,
+    "stop_name": "Maharajgunj",
+    "stop_code": "MRG001",
+    "latitude": 27.7394,
+    "longitude": 85.3347,
+    "address": "Maharajgunj, Kathmandu",
+    "landmarks": "Near TU Teaching Hospital",
+    "district": "Kathmandu",
+    "zone": "Bagmati",
+    "is_major_stop": true,
+    "facilities": {
+      "wheelchair_accessible": true,
+      "shelter": true,
+      "seating": true
+    }
+  },
+  {
+    "id": 6,
+    "stop_name": "Kirtipur Campus",
+    "stop_code": "KTC001",
+    "latitude": 27.678,
+    "longitude": 85.28,
+    "address": "Tribhuvan University, Kirtipur",
+    "landmarks": "TU Central Campus",
+    "district": "Kathmandu",
+    "zone": "Bagmati",
+    "is_major_stop": true,
+    "facilities": {
+      "wheelchair_accessible": true,
+      "shelter": true,
+      "seating": true
+    }
+  },
+  {
+    "id": 7,
+    "stop_name": "Balaju",
+    "stop_code": "BLJ001",
+    "latitude": 27.7394,
+    "longitude": 85.2969,
+    "address": "Balaju, Kathmandu",
+    "landmarks": "Balaju Industrial Area",
+    "district": "Kathmandu",
+    "zone": "Bagmati",
+    "is_major_stop": false,
+    "facilities": {
+      "wheelchair_accessible": false,
+      "shelter": true,
+      "seating": false
+    }
+  },
+  {
+    "id": 8,
+    "stop_name": "Sankhamul",
+    "stop_code": "SKM001",
+    "latitude": 27.69,
+    "longitude": 85.35,
+    "address": "Sankhamul, Kathmandu",
+    "landmarks": "Near Bagmati River",
+    "district": "Kathmandu",
+    "zone": "Bagmati",
+    "is_major_stop": false,
+    "facilities": {
+      "wheelchair_accessible": false,
+      "shelter": false,
+      "seating": false
+    }
+  },
+  {
+    "id": 9,
+    "stop_name": "Kalanki",
+    "stop_code": "KLK001",
+    "latitude": 27.6947,
+    "longitude": 85.2797,
+    "address": "Kalanki, Kathmandu",
+    "landmarks": "Ring Road Junction",
+    "district": "Kathmandu",
+    "zone": "Bagmati",
+    "is_major_stop": true,
+    "facilities": {
+      "wheelchair_accessible": true,
+      "shelter": true,
+      "seating": true
+    }
+  },
+  {
+    "id": 10,
+    "stop_name": "Koteshwor",
+    "stop_code": "KTS001",
+    "latitude": 27.6775,
+    "longitude": 85.3475,
+    "address": "Koteshwor, Kathmandu",
+    "landmarks": "Ring Road East",
+    "district": "Kathmandu",
+    "zone": "Bagmati",
+    "is_major_stop": true,
+    "facilities": {
+      "wheelchair_accessible": true,
+      "shelter": true,
+      "seating": true
+    }
+  }
+]

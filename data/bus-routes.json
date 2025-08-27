@@ -1,0 +1,62 @@
+[
+  {
+    "id": 1,
+    "route_number": "KTM-01",
+    "route_name": "Ratna Park - Bhaktapur",
+    "start_location": "Ratna Park",
+    "end_location": "Bhaktapur Durbar Square",
+    "total_distance_km": 15.5,
+    "estimated_duration_minutes": 45,
+    "operating_hours_start": "06:00",
+    "operating_hours_end": "21:00",
+    "frequency_minutes": 15
+  },
+  {
+    "id": 2,
+    "route_number": "KTM-02",
+    "route_name": "New Bus Park - Patan",
+    "start_location": "New Bus Park",
+    "end_location": "Patan Dhoka",
+    "total_distance_km": 8.2,
+    "estimated_duration_minutes": 25,
+    "operating_hours_start": "06:00",
+    "operating_hours_end": "22:00",
+    "frequency_minutes": 10
+  },
+  {
+    "id": 3,
+    "route_number": "KTM-03",
+    "route_name": "Maharajgunj - Kirtipur",
+    "start_location": "Maharajgunj",
+    "end_location": "Kirtipur Campus",
+    "total_distance_km": 12.3,
+    "estimated_duration_minutes": 35,
+    "operating_hours_start": "06:30",
+    "operating_hours_end": "20:30",
+    "frequency_minutes": 20
+  },
+  {
+    "id": 4,
+    "route_number": "KTM-04",
+    "route_name": "Balaju - Sankhamul",
+    "start_location": "Balaju",
+    "end_location": "Sankhamul",
+    "total_distance_km": 18.7,
+    "estimated_duration_minutes": 50,
+    "operating_hours_start": "06:00",
+    "operating_hours_end": "21:30",
+    "frequency_minutes": 12
+  },
+  {
+    "id": 5,
+    "route_number": "KTM-05",
+    "route_name": "Kalanki - Koteshwor",
+    "start_location": "Kalanki",
+    "end_location": "Koteshwor",
+    "total_distance_km": 22.1,
+    "estimated_duration_minutes": 60,
+    "operating_hours_start": "05:30",
+    "operating_hours_end": "22:00",
+    "frequency_minutes": 18
+  }
+]

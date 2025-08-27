@@ -1,0 +1,26 @@
+[
+  {
+    "stop_id": 1,
+    "connecting_routes": [1, 2, 4],
+    "transfer_time_minutes": 5,
+    "is_major_hub": true
+  },
+  {
+    "stop_id": 2,
+    "connecting_routes": [2, 3, 5],
+    "transfer_time_minutes": 8,
+    "is_major_hub": true
+  },
+  {
+    "stop_id": 9,
+    "connecting_routes": [4, 5],
+    "transfer_time_minutes": 6,
+    "is_major_hub": true
+  },
+  {
+    "stop_id": 10,
+    "connecting_routes": [4, 5],
+    "transfer_time_minutes": 6,
+    "is_major_hub": true
+  }
+]

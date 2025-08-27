@@ -1,0 +1,47 @@
+[
+  {
+    "route_id": 1,
+    "distance_range_start_km": 0.0,
+    "distance_range_end_km": 5.0,
+    "base_fare": 15.0,
+    "student_fare": 10.0,
+    "senior_fare": 12.0,
+    "effective_from": "2024-01-01"
+  },
+  {
+    "route_id": 1,
+    "distance_range_start_km": 5.1,
+    "distance_range_end_km": 15.0,
+    "base_fare": 20.0,
+    "student_fare": 15.0,
+    "senior_fare": 18.0,
+    "effective_from": "2024-01-01"
+  },
+  {
+    "route_id": 1,
+    "distance_range_start_km": 15.1,
+    "distance_range_end_km": 25.0,
+    "base_fare": 25.0,
+    "student_fare": 20.0,
+    "senior_fare": 22.0,
+    "effective_from": "2024-01-01"
+  },
+  {
+    "route_id": 2,
+    "distance_range_start_km": 0.0,
+    "distance_range_end_km": 10.0,
+    "base_fare": 18.0,
+    "student_fare": 12.0,
+    "senior_fare": 15.0,
+    "effective_from": "2024-01-01"
+  },
+  {
+    "route_id": 3,
+    "distance_range_start_km": 0.0,
+    "distance_range_end_km": 15.0,
+    "base_fare": 22.0,
+    "student_fare": 16.0,
+    "senior_fare": 19.0,
+    "effective_from": "2024-01-01"
+  }
+]
