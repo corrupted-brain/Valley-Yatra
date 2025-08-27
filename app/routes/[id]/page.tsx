@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge"
 import { ArrowLeft, Bus, Clock, MapPin, Users, Navigation, Star } from "lucide-react"
 import Link from "next/link"
 import RouteMap from "@/components/route-map"
+import { DataService } from "@/lib/data-service"
+import { useEffect, useState } from "react"
 
 interface Route {
   id: number
@@ -34,177 +36,61 @@ interface BusStop {
   estimated_time_from_start: number
 }
 
-const mockRoutes: Route[] = [
-  {
-    id: 1,
-    route_number: "KTM-01",
-    route_name: "Ratna Park - Bhaktapur",
-    start_location: "Ratna Park",
-    end_location: "Bhaktapur Durbar Square",
-    total_distance_km: 15.5,
-    estimated_duration_minutes: 45,
-    operating_hours_start: "06:00",
-    operating_hours_end: "21:00",
-    frequency_minutes: 15,
-    base_fare: 25,
-    is_active: true,
-    daily_passengers: 2500,
-  },
-  {
-    id: 2,
-    route_number: "KTM-02",
-    route_name: "New Bus Park - Patan",
-    start_location: "New Bus Park",
-    end_location: "Patan Dhoka",
-    total_distance_km: 8.2,
-    estimated_duration_minutes: 25,
-    operating_hours_start: "06:00",
-    operating_hours_end: "22:00",
-    frequency_minutes: 10,
-    base_fare: 18,
-    is_active: true,
-    daily_passengers: 3200,
-  },
-  {
-    id: 3,
-    route_number: "KTM-03",
-    route_name: "Maharajgunj - Kirtipur",
-    start_location: "Maharajgunj",
-    end_location: "Kirtipur Campus",
-    total_distance_km: 12.3,
-    estimated_duration_minutes: 35,
-    operating_hours_start: "06:30",
-    operating_hours_end: "20:30",
-    frequency_minutes: 20,
-    base_fare: 22,
-    is_active: true,
-    daily_passengers: 1800,
-  },
-  {
-    id: 4,
-    route_number: "KTM-04",
-    route_name: "Balaju - Sankhamul",
-    start_location: "Balaju",
-    end_location: "Sankhamul",
-    total_distance_km: 18.7,
-    estimated_duration_minutes: 50,
-    operating_hours_start: "06:00",
-    operating_hours_end: "21:30",
-    frequency_minutes: 12,
-    base_fare: 28,
-    is_active: true,
-    daily_passengers: 2100,
-  },
-  {
-    id: 5,
-    route_number: "KTM-05",
-    route_name: "Kalanki - Koteshwor",
-    start_location: "Kalanki",
-    end_location: "Koteshwor",
-    total_distance_km: 22.1,
-    estimated_duration_minutes: 60,
-    operating_hours_start: "05:30",
-    operating_hours_end: "22:00",
-    frequency_minutes: 18,
-    base_fare: 35,
-    is_active: true,
-    daily_passengers: 2800,
-  },
-]
-
-const mockStops: { [key: number]: BusStop[] } = {
-  1: [
-    {
-      id: 1,
-      stop_name: "Ratna Park",
-      location: "Ratna Park Bus Stop",
-      latitude: 27.7172,
-      longitude: 85.324,
-      order_in_route: 1,
-      estimated_time_from_start: 0,
-    },
-    {
-      id: 2,
-      stop_name: "New Road",
-      location: "New Road Gate",
-      latitude: 27.7056,
-      longitude: 85.3158,
-      order_in_route: 2,
-      estimated_time_from_start: 8,
-    },
-    {
-      id: 3,
-      stop_name: "Tripureshwor",
-      location: "Tripureshwor Chowk",
-      latitude: 27.6939,
-      longitude: 85.3119,
-      order_in_route: 3,
-      estimated_time_from_start: 15,
-    },
-    {
-      id: 4,
-      stop_name: "Thapathali",
-      location: "Thapathali Bridge",
-      latitude: 27.6869,
-      longitude: 85.32,
-      order_in_route: 4,
-      estimated_time_from_start: 22,
-    },
-    {
-      id: 5,
-      stop_name: "Bhaktapur Durbar Square",
-      location: "Bhaktapur Main Gate",
-      latitude: 27.671,
-      longitude: 85.4298,
-      order_in_route: 5,
-      estimated_time_from_start: 45,
-    },
-  ],
-  2: [
-    {
-      id: 6,
-      stop_name: "New Bus Park",
-      location: "Gongabu Bus Park",
-      latitude: 27.7465,
-      longitude: 85.3206,
-      order_in_route: 1,
-      estimated_time_from_start: 0,
-    },
-    {
-      id: 7,
-      stop_name: "Balaju",
-      location: "Balaju Chowk",
-      latitude: 27.7394,
-      longitude: 85.3089,
-      order_in_route: 2,
-      estimated_time_from_start: 5,
-    },
-    {
-      id: 8,
-      stop_name: "Kalanki",
-      location: "Kalanki Chowk",
-      latitude: 27.6928,
-      longitude: 85.2794,
-      order_in_route: 3,
-      estimated_time_from_start: 12,
-    },
-    {
-      id: 9,
-      stop_name: "Patan Dhoka",
-      location: "Patan Durbar Square",
-      latitude: 27.6744,
-      longitude: 85.3244,
-      order_in_route: 4,
-      estimated_time_from_start: 25,
-    },
-  ],
-}
-
 export default function RouteDetailsPage() {
   const params = useParams()
   const routeId = Number.parseInt(params.id as string)
-  const route = mockRoutes.find((r) => r.id === routeId)
-  const stops = mockStops[routeId] || []
+  const [route, setRoute] = useState<Route | null>(null)
+  const [stops, setStops] = useState<BusStop[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const loadRouteData = async () => {
+      try {
+        const routes = DataService.getBusRoutes()
+        const foundRoute = routes.find((r) => r.id === routeId)
+
+        if (foundRoute) {
+          setRoute({
+            ...foundRoute,
+            base_fare: 25, // Default base fare
+            is_active: true,
+            daily_passengers: Math.floor(foundRoute.total_distance_km * 150 + foundRoute.frequency_minutes * 50),
+          })
+
+          const stopsWithDetails = DataService.getStopsForRoute(routeId)
+            .map((stop) => ({
+              id: stop.id,
+              stop_name: stop.stop_name,
+              location: stop.address,
+              latitude: stop.latitude,
+              longitude: stop.longitude,
+              order_in_route: stop.stop_sequence,
+              estimated_time_from_start: stop.estimated_travel_time_minutes,
+            }))
+            .sort((a, b) => a.order_in_route - b.order_in_route)
+
+          setStops(stopsWithDetails)
+        }
+      } catch (error) {
+        console.error("Error loading route data:", error)
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadRouteData()
+  }, [routeId])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-accent mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Loading route details...</p>
+        </div>
+      </div>
+    )
+  }
 
   if (!route) {
     return (
