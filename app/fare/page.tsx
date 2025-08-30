@@ -1,6 +1,6 @@
 import { FareCalculator } from "@/components/fare-calculator"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Calculator, Users, Info } from "lucide-react"
+import { Calculator, DollarSign, Users, Info } from "lucide-react"
 
 export default function FarePage() {
   return (
@@ -36,7 +36,7 @@ export default function FarePage() {
                   <p>Students get 30% discount, seniors get 15% discount</p>
                 </div>
                 <div className="flex items-start gap-2">
-                  <DollarSign /*className="h-4 w-4 text-accent mt-0.5 flex-shrink-0"*/ />
+                  <DollarSign className="h-4 w-4 text-accent mt-0.5 flex-shrink-0" />
                   <p>Multiple routes? We show the most cost-effective option</p>
                 </div>
               </CardContent>

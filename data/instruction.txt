@@ -1,0 +1,532 @@
+Here’s hore’s how the JSON files inter-link and how to add data safely:
+
+- bus-stops.json
+
+- Purpose: Master list of all stops.
+- Key: stop.id (string or number). Must be unique.
+- Fields: name, lat, lng, optional area/locality.
+- Used by: route-stops.json (via stop_id), bus-routes.json (start_stop_id/end_stop_id), transfer-points.json.
+
+
+
+- bus-routes.json
+
+- Purpose: Master list of routes.
+- Key: route.id.
+- Fields: name, route_number/code, start_stop_id, end_stop_id, distance_km (optional), notes.
+- Links to stops: start_stop_id and end_stop_id must exist in bus-stops.json.
+- Used by: route-stops.json (via route_id), bus-fleet.json (via route_id), fare-structure.json (for route overrides).
+
+
+
+- route-stops.json
+
+- Purpose: Ordered path for each route.
+- Shape: an array of objects with route_id, stop_id, sequence (1,2,3…), optionally distance_from_start_km and time_from_start_min, and direction if you support both directions.
+- Links: route_id must exist in bus-routes.json; stop_id must exist in bus-stops.json.
+- Sorting: UI shows stops ordered by sequence ascending. This is how “intermediate stops” are shown in route details.
+
+
+
+- fare-structure.json
+
+- Purpose: Fare rules.
+- Typical fields: base_fare, per_km, min_fare, caps, categories (student/senior with multipliers or fixed discounts), and optional route_overrides keyed by route_id.
+- Links: route_overrides.route_id must exist in bus-routes.json.
+- Used by: Fare calculator and journey planner estimates.
+
+
+
+- transfer-points.json
+
+- Purpose: Where transfers are possible.
+- Fields: stop_id, connected_route_ids (array), notes.
+- Links: stop_id must exist in bus-stops.json; each connected_route_id must exist in bus-routes.json.
+- Used by: Route planning engine to build multi-leg trips.
+
+
+
+- bus-fleet.json
+
+- Purpose: Actual buses operating routes.
+- Fields: bus_id, route_id, operator, type (Standard/AC/Deluxe), plate, frequency/min_headway.
+- Links: route_id must exist in bus-routes.json.
+- Used by: Journey results “Available buses on this route”.
+
+
+
+
+
+How DataService ties them together
+
+- Loads each JSON and builds lookups like:
+
+- stopsById: { [stop.id]: stop }
+- routesById: { [route.id]: route }
+- routeStopsByRoute: { [route.id]: sorted array of { stop_id, sequence, … } }
+- fleetByRoute: { [route.id]: array of buses }
+
+
+
+- Exposes static methods such as:
+
+- getBusRoutes(), getRouteById(id)
+- getAllStops(), getStopById(id)
+- getStopsForRoute(routeId) → returns stops in order by joining route-stops with bus-stops
+- getTransferPointsForStop(stopId)
+- getFareRules() and getFareForRoute()/segments
+- getFleetForRoute(routeId)
+
+
+
+
+
+Step-by-step: adding a new route
+
+1. Add or verify stops in bus-stops.json
+
+1. Ensure every stop on the path exists with unique id and correct lat/lng.
+2. Example stop:
+{ "id": "stop_maitighar", "name": "Maitighar", "lat": 27.6936, "lng": 85.3221 }
+
+
+
+2. Add the route in bus-routes.json
+
+1. Example:
+{
+"id": "route_rp_bkt",
+"route_number": "RP–BKT",
+"name": "Ratna Park – Bhaktapur Durbar Square",
+"start_stop_id": "stop_ratna_park",
+"end_stop_id": "stop_bhaktapur_durbar",
+"distance_km": 13.8
+}
+
+
+
+3. Map the path in route-stops.json
+
+1. Add one entry per stop in order with sequence increasing by 1:
+[
+{ "route_id": "route_rp_bkt", "stop_id": "stop_ratna_park", "sequence": 1, "time_from_start_min": 0 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_maitighar", "sequence": 2 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_new_baneshwor", "sequence": 3 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_tinkune", "sequence": 4 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_koteshwor", "sequence": 5 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_jadibuti", "sequence": 6 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_lokanthali", "sequence": 7 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_radhe_radhe", "sequence": 8 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_suryabinayak", "sequence": 9 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_bhaktapur_durbar", "sequence": 10 }
+]
+2. The route details page will show these in order.
+
+
+
+4. (Optional) Add transfer points in transfer-points.json
+
+1. If Koteshwor connects to other routes:
+{ "stop_id": "stop_koteshwor", "connected_route_ids": ["route_rp_bkt","route_ring_road_east"], "notes": "Major interchange" }
+
+
+
+5. (Optional) Add route-specific buses in bus-fleet.json
+
+1. [
+{ "bus_id": "BKT-AC-12", "route_id": "route_rp_bkt", "operator": "Bhaktapur Express", "type": "AC", "plate": "Ba 2 Kha 1234", "min_headway_min": 10 }
+]
+
+
+
+6. (Optional) Add/override fares in fare-structure.json
+
+1. Global defaults already apply; for special pricing add:
+{
+"route_overrides": [
+{ "route_id": "route_rp_bkt", "base_fare": 20, "per_km": 2.5 }
+]
+}
+
+
+
+
+
+Here’s hore’s how the JSON files inter-link and how to add data safely:
+
+- bus-stops.json
+
+- Purpose: Master list of all stops.
+- Key: stop.id (string or number). Must be unique.
+- Fields: name, lat, lng, optional area/locality.
+- Used by: route-stops.json (via stop_id), bus-routes.json (start_stop_id/end_stop_id), transfer-points.json.
+
+
+
+- bus-routes.json
+
+- Purpose: Master list of routes.
+- Key: route.id.
+- Fields: name, route_number/code, start_stop_id, end_stop_id, distance_km (optional), notes.
+- Links to stops: start_stop_id and end_stop_id must exist in bus-stops.json.
+- Used by: route-stops.json (via route_id), bus-fleet.json (via route_id), fare-structure.json (for route overrides).
+
+
+
+- route-stops.json
+
+- Purpose: Ordered path for each route.
+- Shape: an array of objects with route_id, stop_id, sequence (1,2,3…), optionally distance_from_start_km and time_from_start_min, and direction if you support both directions.
+- Links: route_id must exist in bus-routes.json; stop_id must exist in bus-stops.json.
+- Sorting: UI shows stops ordered by sequence ascending. This is how “intermediate stops” are shown in route details.
+
+
+
+- fare-structure.json
+
+- Purpose: Fare rules.
+- Typical fields: base_fare, per_km, min_fare, caps, categories (student/senior with multipliers or fixed discounts), and optional route_overrides keyed by route_id.
+- Links: route_overrides.route_id must exist in bus-routes.json.
+- Used by: Fare calculator and journey planner estimates.
+
+
+
+- transfer-points.json
+
+- Purpose: Where transfers are possible.
+- Fields: stop_id, connected_route_ids (array), notes.
+- Links: stop_id must exist in bus-stops.json; each connected_route_id must exist in bus-routes.json.
+- Used by: Route planning engine to build multi-leg trips.
+
+
+
+- bus-fleet.json
+
+- Purpose: Actual buses operating routes.
+- Fields: bus_id, route_id, operator, type (Standard/AC/Deluxe), plate, frequency/min_headway.
+- Links: route_id must exist in bus-routes.json.
+- Used by: Journey results “Available buses on this route”.
+
+
+
+
+
+How DataService ties them together
+
+- Loads each JSON and builds lookups like:
+
+- stopsById: { [stop.id]: stop }
+- routesById: { [route.id]: route }
+- routeStopsByRoute: { [route.id]: sorted array of { stop_id, sequence, … } }
+- fleetByRoute: { [route.id]: array of buses }
+
+
+
+- Exposes static methods such as:
+
+- getBusRoutes(), getRouteById(id)
+- getAllStops(), getStopById(id)
+- getStopsForRoute(routeId) → returns stops in order by joining route-stops with bus-stops
+- getTransferPointsForStop(stopId)
+- getFareRules() and getFareForRoute()/segments
+- getFleetForRoute(routeId)
+
+
+
+
+
+Step-by-step: adding a new route
+
+1. Add or verify stops in bus-stops.json
+
+1. Ensure every stop on the path exists with unique id and correct lat/lng.
+2. Example stop:
+{ "id": "stop_maitighar", "name": "Maitighar", "lat": 27.6936, "lng": 85.3221 }
+
+
+
+2. Add the route in bus-routes.json
+
+1. Example:
+{
+"id": "route_rp_bkt",
+"route_number": "RP–BKT",
+"name": "Ratna Park – Bhaktapur Durbar Square",
+"start_stop_id": "stop_ratna_park",
+"end_stop_id": "stop_bhaktapur_durbar",
+"distance_km": 13.8
+}
+
+
+
+3. Map the path in route-stops.json
+
+1. Add one entry per stop in order with sequence increasing by 1:
+[
+{ "route_id": "route_rp_bkt", "stop_id": "stop_ratna_park", "sequence": 1, "time_from_start_min": 0 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_maitighar", "sequence": 2 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_new_baneshwor", "sequence": 3 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_tinkune", "sequence": 4 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_koteshwor", "sequence": 5 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_jadibuti", "sequence": 6 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_lokanthali", "sequence": 7 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_radhe_radhe", "sequence": 8 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_suryabinayak", "sequence": 9 },
+{ "route_id": "route_rp_bkt", "stop_id": "stop_bhaktapur_durbar", "sequence": 10 }
+]
+2. The route details page will show these in order.
+
+
+
+4. (Optional) Add transfer points in transfer-points.json
+
+1. If Koteshwor connects to other routes:
+{ "stop_id": "stop_koteshwor", "connected_route_ids": ["route_rp_bkt","route_ring_road_east"], "notes": "Major interchange" }
+
+
+
+5. (Optional) Add route-specific buses in bus-fleet.json
+
+1. [
+{ "bus_id": "BKT-AC-12", "route_id": "route_rp_bkt", "operator": "Bhaktapur Express", "type": "AC", "plate": "Ba 2 Kha 1234", "min_headway_min": 10 }
+]
+
+
+
+6. (Optional) Add/override fares in fare-structure.json
+
+1. Global defaults already apply; for special pricing add:
+{
+"route_overrides": [
+{ "route_id": "route_rp_bkt", "base_fare": 20, "per_km": 2.5 }
+]
+}
+
+
+
+
+
+Validation checklist
+
+- IDs match exactly across files (no typos).
+- start_stop_id and end_stop_id exist in bus-stops.json.
+- Every route_stops entry references existing route_id and stop_id.
+- Sequences are contiguous integers starting at 1 for each route.
+- JSON arrays/objects are valid (no trailing commas, proper quotes).
+- If you added bus-fleet or transfer-points, referenced route_ids and stop_ids exist.
+
+
+Common mistakes that break rendering
+
+- Using getInstance() on DataService (it uses static methods instead).
+- Mismatched IDs (e.g., "stop_suryabinayak" vs "stop_surya_binayak").
+- Missing route-stops for a route (details page won’t show stops).
+- Forgetting to sort by sequence when building a list (DataService usually handles ordering).
+- Invalid JSON syntax causing data load errors.
+
+
+If you want, share a small snippet you’re trying to add, and I’ll validate and adjust it to match the expected structure. I can also add a data-validator script to report broken links (missing IDs, duplicate sequences) before deploy.
+
+Here’s how your JSON files inter-link
+
+- data/bus-stops.json
+
+- What it is: Master list of all stops.
+- Key fields: id (number, unique), stop_name, latitude, longitude, address, landmarks, district, zone, is_major_stop, facilities.
+- Referenced by:
+
+- bus-routes.json via start_location/end_location names only for display (IDs are not linked there).
+- route-stops.json via stop_id.
+- transfer-points.json via stop_id.
+
+
+
+- In DataService: getBusStops(), getStopById(id), searchStops(), getNearbyStops().
+
+
+
+- data/bus-routes.json
+
+- What it is: Master list of routes.
+- Key fields: id (number, unique), route_number, route_name, start_location, end_location, total_distance_km, estimated_duration_minutes, operating_hours_start/end, frequency_minutes.
+- Referenced by:
+
+- route-stops.json via route_id.
+- fare-structure.json via route_id.
+- bus-fleet.json via route_id.
+- transfer-points.json indirectly (stop connects multiple route IDs).
+
+
+
+- In DataService: getBusRoutes(), getRouteById(id), searchRoutes().
+
+
+
+- data/route-stops.json
+
+- What it is: Ordered mapping of a route to its stops.
+- Key fields: route_id, stop_id, stop_sequence (1..n increasing), distance_from_start_km, estimated_travel_time_minutes, fare_from_start.
+- Links:
+
+- route_id must exist in bus-routes.json.
+- stop_id must exist in bus-stops.json.
+
+
+
+- In DataService: getStopsForRoute(routeId) uses this to return stops in order by joining to bus-stops.json.
+
+
+
+- data/fare-structure.json
+
+- What it is: Distance band fare rules per route.
+- Key fields: route_id, distance_range_start_km, distance_range_end_km, base_fare, student_fare, senior_fare, effective_from.
+- Links:
+
+- route_id must exist in bus-routes.json.
+
+
+
+- Used by fare calculations to pick the correct band for a segment length or total.
+
+
+
+- data/transfer-points.json
+
+- What it is: Interchange info at a stop.
+- Key fields: stop_id, connecting_routes (number[]), transfer_time_minutes, is_major_hub.
+- Links:
+
+- stop_id must exist in bus-stops.json.
+- each route in connecting_routes must exist in bus-routes.json.
+
+
+
+- In planning: helps find multi-leg trips.
+
+
+
+- data/bus-fleet.json
+
+- What it is: Buses that operate on routes.
+- Shape note: This file is an object with a “buses” array (not a top-level array like others).
+- Key fields per item: id, bus_number, route_id, bus_type, capacity, operator, status.
+- Links:
+
+- route_id must exist in bus-routes.json.
+
+
+
+- In DataService: getBusFleet(), getBusesForRoute(routeId), getBusByNumber().
+
+
+
+
+
+How DataService ties them together
+
+- It imports all JSON files and exposes static methods (no singleton).
+- It builds lists and does JOIN-like work on the fly:
+
+- getStopsForRoute(routeId): filters route-stops by route_id, sorts by stop_sequence, joins each to bus-stops by stop_id, and returns enriched stop rows containing both stop fields and route-stop fields.
+- getRoutesForStop(stopId): finds all route_ids in route-stops with that stopId, then filters routes by those IDs.
+
+
+
+- All lookups depend on numeric IDs matching across files.
+
+
+Step-by-step: how to add a new route correctly
+
+1. Add any missing stops to bus-stops.json first
+
+
+- Ensure each stop has a unique numeric id and valid coordinates.
+- Example:
+{
+"id": 18,
+"stop_name": "Banepa Chowk",
+"stop_code": "BNP001",
+"latitude": 27.63,
+"longitude": 85.52,
+"address": "Banepa Chowk, Kavre",
+"landmarks": "Market Area",
+"district": "Kavre",
+"zone": "Bagmati",
+"is_major_stop": true,
+"facilities": { "shelter": true, "seating": true }
+}
+
+
+2. Add the route to bus-routes.json
+
+
+- Pick a new unique id and a route_number. start_location/end_location are display names only (don’t need to be IDs).
+- Example:
+{
+"id": 6,
+"route_number": "KTM-06",
+"route_name": "Koteshwor - Banepa",
+"start_location": "Koteshwor",
+"end_location": "Banepa Chowk",
+"total_distance_km": 24.0,
+"estimated_duration_minutes": 65,
+"operating_hours_start": "06:00",
+"operating_hours_end": "21:00",
+"frequency_minutes": 15
+}
+
+
+3. Map the path in route-stops.json
+
+
+- Add one object per stop in the exact travel order with increasing stop_sequence. stop_id must exist in bus-stops.json, route_id must be the route you just added.
+- Example:
+{ "route_id": 6, "stop_id": 10, "stop_sequence": 1, "distance_from_start_km": 0.0,  "estimated_travel_time_minutes": 0,  "fare_from_start": 0.0 }    // Koteshwor
+{ "route_id": 6, "stop_id": 14, "stop_sequence": 2, "distance_from_start_km": 2.0,  "estimated_travel_time_minutes": 6,  "fare_from_start": 10.0 }   // Jadibuti
+{ "route_id": 6, "stop_id": 15, "stop_sequence": 3, "distance_from_start_km": 4.0,  "estimated_travel_time_minutes": 12, "fare_from_start": 12.0 }   // Lokanthali
+{ "route_id": 6, "stop_id": 16, "stop_sequence": 4, "distance_from_start_km": 6.0,  "estimated_travel_time_minutes": 18, "fare_from_start": 15.0 }   // Radhe Radhe
+{ "route_id": 6, "stop_id": 17, "stop_sequence": 5, "distance_from_start_km": 8.0,  "estimated_travel_time_minutes": 24, "fare_from_start": 18.0 }   // Suryabinayak
+{ "route_id": 6, "stop_id": 18, "stop_sequence": 6, "distance_from_start_km": 24.0, "estimated_travel_time_minutes": 65, "fare_from_start": 30.0 }   // Banepa Chowk
+
+
+4. (Optional) Add fare bands in fare-structure.json
+
+
+- Add bands for the new route_id that cover the possible travel distances.
+- Example:
+{ "route_id": 6, "distance_range_start_km": 0.0,  "distance_range_end_km": 10.0, "base_fare": 20.0, "student_fare": 15.0, "senior_fare": 18.0, "effective_from": "2025-01-01" }
+{ "route_id": 6, "distance_range_start_km": 10.1, "distance_range_end_km": 25.0, "base_fare": 30.0, "student_fare": 24.0, "senior_fare": 26.0, "effective_from": "2025-01-01" }
+
+
+5. (Optional) Add transfer points in transfer-points.json
+
+
+- If your new route connects at an existing hub (e.g., Koteshwor):
+{ "stop_id": 10, "connecting_routes": [4,5,6], "transfer_time_minutes": 6, "is_major_hub": true }
+
+
+6. (Optional) Add buses in bus-fleet.json
+
+
+- Remember bus-fleet.json keeps an object with “buses”: [ … ].
+- Example inside the “buses” array:
+{ "id": 20, "bus_number": "BA 5 KA 1122", "route_id": 6, "bus_type": "Standard", "capacity": 45, "operator": "Koteshwor Transport Cooperative", "status": "active" }
+
+
+Validation checklist (avoid common issues)
+
+- Numeric IDs must match across files:
+
+- Every route_stops.route_id exists in bus-routes.json.
+- Every route_stops.stop_id exists in bus-stops.json.
+- Every transfer-points.stop_id exists in bus-stops.json.
+- Every transfer-points.connecting_routes[i] exists in bus-routes.json.
+- Every bus_fleet.buses[i].route_id exists in bus-routes.json.
+
+
+
+- route-stops sequences are contiguous 1..n with no gaps and correct order.
+- fare-structure bands for a route do not overlap and cover expected distances.
+- bus-fleet.json remains an object with a “buses” array (don’t change the top-level shape).
+- DataService uses static methods only (no getInstance). If you add methods, keep them static to match current usage.
